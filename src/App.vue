@@ -2,12 +2,9 @@
 
   <img alt="Vue logo" src="./assets/logo.png">
 
-  <p>Alterando dados usando "reactive" - {{ user.first_name }} {{ user.last_name }}</p>
-  <button @click="changeUser">Alterar</button>
-
   <br><br>
 
-  <p>Alterando dados usando "ref" - {{ admin.first_name }} {{ admin.last_name }}</p>
+  <p>Alterando dados usando "ref" - {{ adminFullName }}</p>
   <button @click="changeAdmin">Alterar</button>
   
   <HelloWorld msg="Welcome to Your Vue.js App"/>
@@ -15,7 +12,7 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, computed, watch } from 'vue'
 import HelloWorld from './components/HelloWorld.vue'
 
 export default {
@@ -26,18 +23,11 @@ export default {
     HelloWorld
   },
 
-  mounted() {
-    document.title = "Composition API"
-  },
-
   setup(){
 
-    const changeUser = () => {
-
-      user.first_name = "Games";
-      user.last_name = "Eduu";
-
-    }
+    const adminFullName = computed(() => {
+      return `${admin.value.first_name} ${admin.value.last_name}`
+    })
 
     const changeAdmin = () => {
 
@@ -46,13 +36,6 @@ export default {
 
     }
 
-    const user = reactive({
-
-      first_name: "Ednaldo",
-      last_name: "Pereira",
-
-    })
-
     const admin = ref({
 
       first_name: "Manoel",
@@ -60,11 +43,16 @@ export default {
 
     })
 
+    watch(admin, () => {
+      console.log("Usuário alterado")
+    },{
+      deep: true
+    })
+
     return {
-      user,
       admin,
-      changeUser,
       changeAdmin,
+      adminFullName,
     }
 
   }
