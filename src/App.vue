@@ -6,24 +6,30 @@
 
   <p>Alterando dados usando "ref" - {{ adminFullName }}</p>
   <button @click="changeAdmin">Alterar</button>
-  
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+  <br><br>
+
+  <hookComponent v-if="showHook"/><br>
+  <button @click="showHook = !showHook">Mostrar/Ocultar</button>
+
 
 </template>
 
 <script>
 import { ref, computed, watch } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+import hookComponent from './components/hookComponent.vue'
 
 export default {
 
   name: 'App',
   
   components: {
-    HelloWorld
+    hookComponent,
   },
 
   setup(){
+
+    const showHook = ref(true)
 
     const adminFullName = computed(() => {
       return `${admin.value.first_name} ${admin.value.last_name}`
@@ -53,6 +59,7 @@ export default {
       admin,
       changeAdmin,
       adminFullName,
+      showHook
     }
 
   }
