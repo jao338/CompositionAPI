@@ -2,64 +2,36 @@
 
   <img alt="Vue logo" src="./assets/logo.png">
 
-  <br><br>
+  <exampleComponent data-vue="BluePen" @update="getUpdate">
+    
+    <span>Save</span>
 
-  <p>Alterando dados usando "ref" - {{ adminFullName }}</p>
-  <button @click="changeAdmin">Alterar</button>
+    <template #icon> Icon</template>
 
-  <br><br>
-
-  <hookComponent v-if="showHook"/><br>
-  <button @click="showHook = !showHook">Mostrar/Ocultar</button>
+  </exampleComponent>
 
 
 </template>
 
 <script>
-import { ref, computed, watch } from 'vue'
-import hookComponent from './components/hookComponent.vue'
+import exampleComponent from './components/exampleComponent.vue'
 
 export default {
 
   name: 'App',
   
   components: {
-    hookComponent,
+    exampleComponent,
   },
 
   setup(){
 
-    const showHook = ref(true)
-
-    const adminFullName = computed(() => {
-      return `${admin.value.first_name} ${admin.value.last_name}`
-    })
-
-    const changeAdmin = () => {
-
-      admin.value.first_name = "Blue";
-      admin.value.last_name = "Pen";
-
+    const getUpdate = (data) => {
+      console.log('getUpdate', data);
     }
 
-    const admin = ref({
-
-      first_name: "Manoel",
-      last_name: "Gomes",
-
-    })
-
-    watch(admin, () => {
-      console.log("Usuário alterado")
-    },{
-      deep: true
-    })
-
-    return {
-      admin,
-      changeAdmin,
-      adminFullName,
-      showHook
+    return{
+      getUpdate,
     }
 
   }
